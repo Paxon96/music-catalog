@@ -1,5 +1,6 @@
 package pl.paxon96.musiccatalog.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -8,12 +9,16 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.paxon96.musiccatalog.entity.User;
+import pl.paxon96.musiccatalog.repository.RecordRepository;
 
 import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/")
 public class MainController {
+
+    @Autowired
+    private RecordRepository recordRepository;
 
     @GetMapping
     public String mainPage(Model model){
@@ -52,6 +57,17 @@ public class MainController {
     @PostMapping("/logout")
     public ModelAndView logout(ModelAndView modelAndView) {
         modelAndView.setViewName("redirect:login");
+        return modelAndView;
+    }
+
+
+
+    @GetMapping(value = "/records")
+    public ModelAndView getRecords(ModelAndView modelAndView){
+        modelAndView.getModelMap().clear();
+        modelAndView.addObject("records", recordRepository.findAll());
+        modelAndView.setViewName("records");
+
         return modelAndView;
     }
 }
