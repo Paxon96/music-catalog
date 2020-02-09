@@ -17,9 +17,6 @@ import javax.validation.Valid;
 @RequestMapping("/")
 public class MainController {
 
-    @Autowired
-    private RecordRepository recordRepository;
-
     @GetMapping
     public String mainPage(Model model){
         return "index";
@@ -31,28 +28,17 @@ public class MainController {
         return "login";
     }
 
-    @PostMapping(value = "login")
-    public ModelAndView postMainPage(@ModelAttribute("user") @Valid User user, RedirectAttributes redirect, ModelAndView model) {
-
-        if(user.getLogin() == null){
-            model.setViewName("redirect:/");
-            redirect.addFlashAttribute("user", user);
-            redirect.addFlashAttribute("invalidPassword", "Niepoprawne hasło");
-            return model;
-        }
-
-//        if (!userService.findLoginInDatabase(user.getLogin()) || userRepository.findFirstByLogin(user.getLogin()).getPassword() == null) {
-//            model.setViewName("redirect:/");
+//    @PostMapping(value = "login")
+//    public ModelAndView postMainPage(@ModelAttribute("user") @Valid User user, RedirectAttributes redirect, ModelAndView model) {
+//
+//        if(user.getLogin() == null){
+//            model.setViewName("redirect:/login");
 //            redirect.addFlashAttribute("user", user);
-//            redirect.addFlashAttribute("noUserInSystem", "Hasło dla tego nr albumu zostało wysłane e-mailem");
+//            redirect.addFlashAttribute("invalidPassword", "Niepoprawne hasło");
 //            return model;
 //        }
-
-        model.setViewName("redirect:password");
-        redirect.addFlashAttribute("user", user);
-
-        return model;
-    }
+//        return model;
+//    }
 
     @PostMapping("/logout")
     public ModelAndView logout(ModelAndView modelAndView) {
@@ -60,14 +46,4 @@ public class MainController {
         return modelAndView;
     }
 
-
-
-    @GetMapping(value = "/records")
-    public ModelAndView getRecords(ModelAndView modelAndView){
-        modelAndView.getModelMap().clear();
-        modelAndView.addObject("records", recordRepository.findAll());
-        modelAndView.setViewName("records");
-
-        return modelAndView;
-    }
 }

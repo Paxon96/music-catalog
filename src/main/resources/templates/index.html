@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-    <title>RODO</title>
+    <title>Music catalog</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -10,6 +10,13 @@
     <script src="../static/js/bootstrap.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <style>
+        .card-deck {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-gap: .5rem;
+        }
+    </style>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -29,8 +36,38 @@
         </ul>
     </div>
 </nav>
-<div class="container" style="margin-top: 40px">
+<div class="container" style="margin-top: 50px;">
+    <div class="card-deck">
+            <a class="card text-white bg-dark mb-3" th:href="@{/records}" style="max-width: 18rem;">
+                <h5 class="card-header">Płyty</h5>
+                <div class="card-body">
+                    <i class="material-icons" style="font-size: 50px;">local_offer</i>
+                    <p class="card-text"></p>
+                </div>
+            </a>
 
+            <a class="card text-white bg-dark mb-3" th:href="@{/composers}" style="max-width: 18rem;">
+                <h5 class="card-header">Kompozytorzy</h5>
+            </a>
+
+            <a class="card text-white bg-dark mb-3" th:href="@{/performers}" style="max-width: 18rem;">
+                <h5 class="card-header">Wykonawcy</h5>
+            </a>
+
+
+        <a class="card text-white bg-dark mb-3" th:href="@{/records/add}" style="max-width: 18rem;">
+                <h5 class="card-header">Dodaj płytę</h5>
+            </a>
+
+            <a class="card text-white bg-dark mb-3" th:href="@{/add/type}" style="max-width: 18rem;">
+                <h5 class="card-header">Dodaj typ płyty</h5>
+                <div class="card-body">
+                    <i class="material-icons" style="font-size: 50px;">class</i>
+                    <p class="card-text"></p>
+                </div>
+            </a>
+    </div>
+    </div>
 </div>
 </body>
 </html>

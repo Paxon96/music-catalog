@@ -55,6 +55,10 @@ public class Record {
     )
     private List<Performer> performers;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id", referencedColumnName = "id")
+    private Photo photo;
+
     @Override
     public String toString() {
         return "Record{" +
