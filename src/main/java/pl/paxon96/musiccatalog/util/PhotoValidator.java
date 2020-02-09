@@ -1,0 +1,22 @@
+package pl.paxon96.musiccatalog.util;
+
+import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
+
+@Component
+public class PhotoValidator {
+
+    public boolean validatePhoto(MultipartFile file){
+        if(file.getOriginalFilename().trim().equalsIgnoreCase("")){
+            return false;
+        }else if(!file.getName().substring(file.getName().lastIndexOf('.')).equalsIgnoreCase("jpg")){
+            return false;
+        }else if(!file.getName().substring(file.getName().lastIndexOf('.')).equalsIgnoreCase("png")){
+            return false;
+        }else if(file.getSize() == 0){
+            return false;
+        }else
+            return true;
+    }
+
+}

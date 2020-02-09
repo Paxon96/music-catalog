@@ -9,4 +9,18 @@ import java.io.File;
 public class RecordDto {
 
     private MultipartFile photo;
+
+    private Long composerId;
+
+    private Long performerId;
+
+    private String title;
+
+    private Boolean isReproduction;
+
+    private String description;
+
+    private Integer year;
+
+    private Integer recordAmount;
 }
