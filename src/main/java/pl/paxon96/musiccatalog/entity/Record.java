@@ -22,8 +22,6 @@ public class Record {
 
     private String title;
 
-    private String type;
-
     private Integer year;
 
     @Column(name = "is_reproduction")
@@ -31,8 +29,6 @@ public class Record {
 
     @Column(name = "record_type")
     private String recordType;
-
-    private String format;
 
     @Column(name = "record_amount")
     private Integer recordAmount;
@@ -59,12 +55,19 @@ public class Record {
     @JoinColumn(name = "id", referencedColumnName = "id")
     private Photo photo;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "music_type_id")
+    private MusicType musicType;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "format_id")
+    private Format format;
+
     @Override
     public String toString() {
         return "Record{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
-                ", type='" + type + '\'' +
                 ", year=" + year +
                 ", isReproduction=" + isReproduction +
                 ", recordType='" + recordType + '\'' +

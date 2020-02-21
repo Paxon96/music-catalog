@@ -1,18 +1,24 @@
 package pl.paxon96.musiccatalog.recource;
 
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.File;
 
 @Data
 public class RecordDto {
 
+    @Value("${music.catalog.default_array_size}:100")
+    private int arraysSize;
+
     private MultipartFile photo;
 
-    private Long composerId;
+    private Long[] composerIdArray;
 
-    private Long performerId;
+    private Long[] performerIdArray;
+
+    private Long[] musicTypeIdArray;
+
+    private Long formatId;
 
     private String title;
 
@@ -23,4 +29,11 @@ public class RecordDto {
     private Integer year;
 
     private Integer recordAmount;
+
+    public RecordDto() {
+        //TODO temporary solution, need idea to change it
+        this.performerIdArray = new Long[90];
+        this.composerIdArray = new Long[500];
+        this.musicTypeIdArray = new Long[90];
+    }
 }

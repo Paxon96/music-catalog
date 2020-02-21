@@ -16,56 +16,83 @@
 <div class="container" style="margin-top: 40px">
     <form th:action="@{/records/add}" enctype="multipart/form-data" th:object="${recordDto}" method="post">
         <div class="form-group">
-            <label for="title" class="control-label">Tytuł płyty</label>
+            <h4>Tytuł płyty</h4>
+            <label for="title" class="control-label"></label>
             <input id="title"
                    class="form-control"
                    th:field="*{title}"/>
         </div>
-        <div class="form-check">
+        <div class="form-check" style="margin-top:30px;">
             <input class="form-check-input" type="checkbox" value="" id="isReproduction" th:field="*{isReproduction}">
             <label class="form-check-label" for="isReproduction">
                 Reprodukcja?
             </label>
         </div>
-        <div class="form-group">
-            <label for="performer">Wybierz wykonawce</label>
-            <select class="form-control" id="performer" th:field="*{performerId}">
-                <option th:value="${null}">---</option>
-                <option th:each="performer : ${performers}"
-                        th:utext="${performer.name}"
-                        th:value="${performer.id}">composer</option>
+
+        <div style="margin-top:30px;">
+            <h4 >Wybierz wykonawce</h4>
+            <th:block th:each="performer, stat : ${performers}">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" th:value="${performer.id}"
+                           th:field="*{performerIdArray[__${stat.index}__]}" id="performerCheck">
+                    <label class="form-check-label" for="performerCheck" th:text="${performer.name}"></label>
+                </div>
+            </th:block>
+        </div>
+        <div style="margin-top:30px;">
+            <h4 >Wybierz kompozytora</h4>
+            <th:block th:each="composer, stat : ${composers}">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" th:value="${composer.id}"
+                           th:field="*{composerIdArray[__${stat.index}__]}" id="composerCheck">
+                    <label class="form-check-label" for="composerCheck" th:text="${composer.name}"></label>
+                </div>
+            </th:block>
+        </div>
+        <div style="margin-top:30px;">
+            <h4 >Wybierz gatunek</h4>
+            <th:block th:each="musicType, stat : ${musicTypes}">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" th:value="${musicType.id}"
+                           th:field="*{musicTypeIdArray[__${stat.index}__]}" id="musicTypeCheck">
+                    <label class="form-check-label" for="musicTypeCheck" th:text="${musicType.name}"></label>
+                </div>
+            </th:block>
+        </div>
+        <div class="form-group" style="margin-top:30px;">
+            <h4>Wybierz format</h4>
+            <label for="format"></label>
+            <select class="form-control" id="format" th:field="*{formatId}">
+                <option th:each="format : ${formats}"
+                        th:utext="${format.name}"
+                        th:value="${format.id}">composer
+                </option>
             </select>
         </div>
-        <div class="form-group">
-            <label for="composer">Wybierz kompozytora</label>
-            <select class="form-control" id="composer" th:field="*{composerId}">
-                <option th:value="${null}">---</option>
-                <option th:each="composer : ${composers}"
-                        th:utext="${composer.name}"
-                        th:value="${composer.id}">composer</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="year" class="control-label">Rok</label>
+        <div class="form-group" style="margin-top:30px;">
+            <h4>Rok</h4>
+            <label for="year" class="control-label"></label>
             <input id="year"
                    class="form-control"
                    th:field="*{year}"/>
         </div>
-        <div class="form-group">
-            <label for="recordAmount" class="control-label">Rok</label>
+        <div class="form-group" style="margin-top:30px;">
+            <h4>Rok</h4>
+            <label for="recordAmount" class="control-label"></label>
             <input id="recordAmount"
                    class="form-control"
                    th:field="*{recordAmount}"/>
         </div>
-        <div class="form-group">
-            <label for="photo">Wybierz zdjęcie</label>
+        <div class="form-group" style="margin-top:30px;">
+            <h4>Wybierz zdjęcie</h4>
             <input type="file" class="form-control-file" id="photo" th:field="*{photo}">
         </div>
-        <div class="form-group">
-            <label for="descripton">Uwagi</label>
+        <div class="form-group" style="margin-top:30px;">
+            <h4>Uwagi</h4>
+            <label for="descripton"></label>
             <textarea class="form-control" id="descripton" rows="3" th:field="*{description}"></textarea>
         </div>
-        <div class="form-group" style="margin-top: 10px;">
+        <div class="form-group" style="margin-top:30px;">
             <button type="submit" class="btn btn-outline-dark">Dodaj</button>
         </div>
     </form>

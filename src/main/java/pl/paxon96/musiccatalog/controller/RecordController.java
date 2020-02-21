@@ -3,25 +3,18 @@ package pl.paxon96.musiccatalog.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import pl.paxon96.musiccatalog.entity.Photo;
 import pl.paxon96.musiccatalog.entity.Record;
 import pl.paxon96.musiccatalog.recource.RecordDto;
 import pl.paxon96.musiccatalog.repository.RecordRepository;
-import pl.paxon96.musiccatalog.service.CloudinaryService;
-import pl.paxon96.musiccatalog.service.ComposerService;
-import pl.paxon96.musiccatalog.service.PerformerService;
-import pl.paxon96.musiccatalog.service.RecordService;
+import pl.paxon96.musiccatalog.service.*;
 import pl.paxon96.musiccatalog.util.PhotoValidator;
 
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/records")
@@ -39,6 +32,10 @@ public class RecordController {
     private PerformerService performerService;
     @Autowired
     private PhotoValidator photoValidator;
+    @Autowired
+    private MusicTypeService musicTypeService;
+    @Autowired
+    private FormatService formatService;
 
     @GetMapping
     public ModelAndView getRecords(ModelAndView modelAndView){
@@ -55,12 +52,20 @@ public class RecordController {
         return modelAndView;
     }
 
+//    @GetMapping
+//    public String getRecord(Model model, @RequestParam("recordId") int recordId){
+//
+//    }
+
     @GetMapping(value = "/add")
     public String addRecord(Model model){
         model.asMap().clear();
-        model.addAttribute("recordDto", new RecordDto());
+
         model.addAttribute("composers", composerService.getAllComposers());
         model.addAttribute("performers", performerService.getAllPerformers());
+        model.addAttribute("musicTypes", musicTypeService.getAllMusicTypes());
+        model.addAttribute("formats", formatService.getAllFormats());
+        model.addAttribute("recordDto", new RecordDto());
         return "addRecord";
     }
 
@@ -70,7 +75,7 @@ public class RecordController {
         if(photoValidator.validatePhoto(recordDto.getPhoto())){
            // cloudinaryService.sendImage(recordDto.getPhoto());
         }
-        recordService.addRecord(recordDto);
+        //recordService.addRecord(recordDto);
         modelAndView.setViewName("redirect:add");
         return modelAndView;
     }
