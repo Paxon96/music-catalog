@@ -17,7 +17,7 @@
     <h1 style="margin-bottom: 20px">Dodaj format</h1>
     <form th:action="@{/formats/add}" th:object="${format}" method="post">
         <div class="form-group">
-            <label for="polishWord" class="control-label">Nazwa wykonwacy</label>
+            <label for="polishWord" class="control-label">Format </label>
             <input id="polishWord"
                    class="form-control"
                    th:field="*{name}"/>

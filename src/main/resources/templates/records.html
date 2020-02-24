@@ -94,6 +94,12 @@
                     <h5 class="card-title">
                         <a th:text="${record.title}">Tytuł płyty</a>
                     </h5>
+                    <h6 class="card-text" th:each="performer : ${record.performers}">
+                        <a th:text="${performer.name}"></a>
+                    </h6>
+                    <h6 class="card-text" th:each="composer : ${record.composers}">
+                        <a th:text="${composer.name}"></a>
+                    </h6>
                     <a th:href="@{'/records/' + ${record.id}}" class="btn btn-outline-dark">Przejdź do płyty</a>
                 </div>
             </div>
