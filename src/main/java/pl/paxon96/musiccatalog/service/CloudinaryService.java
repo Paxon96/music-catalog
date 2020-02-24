@@ -12,6 +12,7 @@ import pl.paxon96.musiccatalog.entity.Record;
 import pl.paxon96.musiccatalog.repository.PhotoRepository;
 import pl.paxon96.musiccatalog.repository.RecordRepository;
 
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Optional;
@@ -54,5 +55,31 @@ public class CloudinaryService {
                 .id(r.getId())
                 .build();
         photoRepository.save(photo);
+    }
+
+    @Transactional
+    public void deleteImage(Long recordId) throws IOException {
+        log.info("Deleting photo " + recordId);
+        Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
+                "cloud_name", cloudName,
+                "api_key", apiKey,
+                "api_secret", apiSecret));
+
+        Optional<Photo> photoOptional = photoRepository.findById(recordId);
+        if(photoOptional.isPresent()){
+            Photo photo = photoOptional.get();
+            Map deleteResults = cloudinary.uploader().destroy(photo.getPublicId(), ObjectUtils.emptyMap());
+            log.info(deleteResults);
+            photo.setSignature(null);
+            photo.setResourceType(null);
+            photo.setSecureUrl(null);
+            photo.setBackupUrl(null);
+            photo.setUrl(null);
+            photo.setPublicId(null);
+            photo.setWidth(null);
+            photo.setHeight(null);
+            photoRepository.save(photo);
+        }
+
     }
 }

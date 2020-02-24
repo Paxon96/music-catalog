@@ -2,13 +2,10 @@ package pl.paxon96.musiccatalog.controller;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -24,7 +21,6 @@ import pl.paxon96.musiccatalog.util.PhotoValidator;
 
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.List;
 
 @Controller
 @RequestMapping("/records")
@@ -99,6 +95,49 @@ public class RecordController {
         return modelAndView;
     }
 
+
+    @GetMapping(value = "/edit/{recordId}")
+    public String editRecord(Model model, @PathVariable("recordId") Long recordId){
+        model.asMap().clear();
+        fillModelForRecord(model);
+        Record record = recordService.getById(recordId);
+
+        RecordDto recordDto = new RecordDto();
+        recordDto.setTitle(record.getTitle());
+        recordDto.setIsReproduction(record.getIsReproduction());
+        recordDto.setRecordAmount(String.valueOf(record.getRecordAmount()));
+        recordDto.setYear(record.getYear() != null? String.valueOf(record.getYear()) : "");
+        recordDto.setDescription(record.getDescription());
+        recordDto.setPhotoUrl(record.getPhoto() != null ?record.getPhoto().getUrl() : null);
+        recordDto.setId(recordId);
+        model.addAttribute("recordDto", recordDto);
+        return "editRecord";
+    }
+
+    @PostMapping(value = "/edit/{recordId}")
+    public ModelAndView editRecordPost(ModelAndView modelAndView,
+                                       @PathVariable("recordId") Long recordId,
+                                      @ModelAttribute("recordDto") @Valid RecordDto recordDto,
+                                      RedirectAttributes redirect) throws IOException {
+        modelAndView.setViewName("redirect:/records");
+        boolean somethingToAlert = false;
+        somethingToAlert = isSomethingToAlert(recordDto, redirect, somethingToAlert);
+        if (somethingToAlert) {
+            return modelAndView;
+        }
+        log.info(recordDto);
+
+        Record record = recordService.editRecord(recordDto, recordId);
+        if(record != null) {
+            if (photoValidator.validatePhoto(recordDto.getPhoto())) {
+                cloudinaryService.deleteImage(recordId);
+                cloudinaryService.sendImage(recordDto.getPhoto(), record.getId());
+            }
+        }
+
+        return modelAndView;
+    }
+
     @GetMapping(value = "/{recordId}")
     public ModelAndView getRecord(ModelAndView modelAndView, @PathVariable("recordId") Long recordId) {
         modelAndView.getModelMap().clear();
@@ -113,16 +152,15 @@ public class RecordController {
 
     @GetMapping(value = "/add")
     public String addRecord(Model model) {
-        model.addAttribute("composers", composerService.getAllComposers());
-        model.addAttribute("performers", performerService.getAllPerformers());
-        model.addAttribute("musicTypes", musicTypeService.getAllMusicTypes());
-        model.addAttribute("formats", formatService.getAllFormats());
         model.addAttribute("recordDto", new RecordDto());
+        fillModelForRecord(model);
         return "addRecord";
     }
 
     @PostMapping(value = "/add")
-    public ModelAndView addPostRecord(ModelAndView modelAndView, @ModelAttribute("recordDto") @Valid RecordDto recordDto, RedirectAttributes redirect) throws IOException {
+    public ModelAndView addPostRecord(ModelAndView modelAndView,
+                                      @ModelAttribute("recordDto") @Valid RecordDto recordDto,
+                                      RedirectAttributes redirect) throws IOException {
         modelAndView.setViewName("redirect:add");
         boolean somethingToAlert = false;
         somethingToAlert = isSomethingToAlert(recordDto, redirect, somethingToAlert);
@@ -166,5 +204,12 @@ public class RecordController {
             recordDto.setRecordAmount("1");
         }
         return somethingToAlert;
+    }
+
+    private void fillModelForRecord(Model model) {
+        model.addAttribute("composers", composerService.getAllComposers());
+        model.addAttribute("performers", performerService.getAllPerformers());
+        model.addAttribute("musicTypes", musicTypeService.getAllMusicTypes());
+        model.addAttribute("formats", formatService.getAllFormats());
     }
 }

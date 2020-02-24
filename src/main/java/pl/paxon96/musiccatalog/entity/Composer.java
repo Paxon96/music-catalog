@@ -28,4 +28,9 @@ public class Composer {
         records.add(record);
         record.getComposers().add(this);
     }
+
+    public void removeRecord(Record record){
+        records.remove(record);
+        record.getComposers().remove(this);
+    }
 }

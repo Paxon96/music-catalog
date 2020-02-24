@@ -6,6 +6,8 @@ import org.springframework.web.multipart.MultipartFile;
 @Data
 public class RecordDto {
 
+    private Long id;
+
     private MultipartFile photo;
 
     private Long[] composerIdArray;
@@ -27,6 +29,8 @@ public class RecordDto {
     private String recordType;
 
     private String recordAmount;
+
+    private String photoUrl;
 
     public RecordDto() {
         //TODO temporary solution, need idea to change it

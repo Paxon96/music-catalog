@@ -28,4 +28,9 @@ public class Performer {
         records.add(record);
         record.getPerformers().add(this);
     }
+
+    public void removeRecord(Record record){
+        records.remove(record);
+        record.getPerformers().remove(this);
+    }
 }
