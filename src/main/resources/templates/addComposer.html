@@ -17,7 +17,7 @@
     <h1 style="margin-bottom: 20px">Dodaj wykonawacę</h1>
     <form th:action="@{/composers/add}" th:object="${composer}" method="post">
         <div class="form-group">
-            <label for="polishWord" class="control-label">Nazwa wykonwacy</label>
+            <label for="polishWord" class="control-label">Nazwa kompozytora</label>
             <input id="polishWord"
                    class="form-control"
                    th:field="*{name}"/>
