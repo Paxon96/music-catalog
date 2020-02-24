@@ -14,19 +14,30 @@
 <body>
 <nav th:replace="navbar.html:: nav"></nav>
 <div class="container" style="margin-top: 40px">
-    <form th:action="@{/login}" method="post">
-        <h1 style="margin-bottom: 20px">Logowanie</h1>
-        <div class="form-group">
-            <label for="username">Nazwa użytkownika</label>
-            <input type="text" class="form-control" id="username" name="username" aria-describedby="emailHelp"
-                   placeholder="nazwa użytkownika">
-        </div>
-        <div class="form-group">
-            <label for="password">Hasło</label>
-            <input type="password" class="form-control" id="password" name="password" placeholder="hasło">
-        </div>
-        <button type="submit" class="btn btn-outline-dark">Zaloguj</button>
-    </form>
+    <h1 style="margin-bottom: 20px">Gatunki</h1>
+    <div class="table-responsive">
+        <table id="productTable" class="table">
+            <thead>
+            <tr>
+                <th>Nazwa</th>
+                <th>Edytuj</th>
+            </tr>
+            <tbody>
+            <tr th:each="musicType : ${musicTypes}">
+                <td th:text="${musicType.name}"></td>
+                <td>
+                    <div>
+                        <form th:action="@{/musicTypes/edit}" th:method="get">
+                            <button type="submit" class="btn btn-outline-dark" id="musicTypeId" name="musicTypeId"
+                                    th:value="${musicType.id}">Edytuj
+                            </button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 </body>
 </html>
