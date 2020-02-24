@@ -32,7 +32,7 @@ public class ComposerController {
     public ModelAndView editComposersPost(ModelAndView model, @ModelAttribute("composer") ComposerDto composer){
         composerService.edit(composer);
         model.getModel().clear();
-        model.setViewName("redirect:edit?composerId={id}".replace("{id}", composer.getId().toString()));
+        model.setViewName("redirect:/composers");
         return model;
     }
 

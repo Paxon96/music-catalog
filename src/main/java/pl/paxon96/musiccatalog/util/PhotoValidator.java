@@ -9,9 +9,8 @@ public class PhotoValidator {
     public boolean validatePhoto(MultipartFile file){
         if(file.getOriginalFilename().trim().equalsIgnoreCase("")){
             return false;
-        }else if(!file.getName().substring(file.getName().lastIndexOf('.')).equalsIgnoreCase("jpg")){
-            return false;
-        }else if(!file.getName().substring(file.getName().lastIndexOf('.')).equalsIgnoreCase("png")){
+        }else if(!file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf('.')).equalsIgnoreCase(".jpg") &&
+                !file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf('.')).equalsIgnoreCase(".png")){
             return false;
         }else if(file.getSize() == 0){
             return false;

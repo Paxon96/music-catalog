@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>Music catalog</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="../static/js/bootstrap.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+<nav th:replace="navbar.html:: nav"></nav>
+<div class="container" style="margin-top: 40px">
+    <div class="text-center">
+        <img th:src="${record.photo.url}" class="rounded"  alt="Brak zdjęcia płyty">
+    </div>
+    <div class="text-center">
+        <br>
+        <div>
+            <label><strong>Tytuł:</strong></label>
+            <br>
+            <a th:text="${record.title}"></a>
+        </div>
+        <br>
+        <div>
+            <label><strong>Rok:</strong></label>
+            <br>
+            <a th:text="${record.year}"></a>
+        </div>
+        <br>
+        <div>
+            <label><strong>Reprodukcja:</strong></label>
+            <br>
+            <a th:text="${record.isReproduction} ? 'TAK' : 'NIE'" ></a>
+        </div>
+        <br>
+        <div>
+            <label><strong>Gatunek:</strong></label>
+            <br>
+            <a th:text="${record.musicType.name}" ></a>
+        </div>
+        <br>
+        <div>
+            <label><strong>Format:</strong></label>
+            <br>
+            <a th:text="${record.format.name}" ></a>
+        </div>
+        <br>
+        <div>
+            <label><strong>Typ:</strong></label>
+            <br>
+            <a th:text="${record.recordType}" ></a>
+        </div>
+        <br>
+        <div>
+            <label><strong>Ilość płyt:</strong></label>
+            <br>
+            <a th:text="${record.recordAmount}" ></a>
+        </div>
+        <br>
+        <div>
+            <label><strong>Uwagi:</strong></label>
+            <br>
+            <a th:text="${record.description}" ></a>
+        </div>
+        <table id="performers" class="table">
+            <thead>
+            <tr>
+                <th>Wykonawcy</th>
+            </tr>
+            <tbody>
+            <tr th:each="performer : ${record.performers}" >
+                <td th:text="${performer.name}"></td>
+            </tbody>
+        </table>
+        <table id="composers" class="table">
+            <thead>
+            <tr>
+                <th>Kompozytorzy</th>
+            </tr>
+            <tbody>
+            <tr th:each="composer : ${record.composers}" >
+                <td th:text="${composer.name}"></td>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

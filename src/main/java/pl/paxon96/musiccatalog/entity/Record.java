@@ -71,11 +71,14 @@ public class Record {
                 ", year=" + year +
                 ", isReproduction=" + isReproduction +
                 ", recordType='" + recordType + '\'' +
-                ", format='" + format + '\'' +
                 ", recordAmount=" + recordAmount +
                 ", description='" + description + '\'' +
                 ", composers=" + composers.stream().map(Composer::getName).collect(Collectors.toList()) +
                 ", performers=" + performers.stream().map(Performer::getName).collect(Collectors.toList()) +
+                ", photo=" + photo.getUrl() +
+                ", musicType=" + musicType.getName() +
+                ", format=" + format.getName() +
                 '}';
     }
+
 }

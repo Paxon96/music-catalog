@@ -12,7 +12,6 @@ import pl.paxon96.musiccatalog.entity.Record;
 import pl.paxon96.musiccatalog.repository.PhotoRepository;
 import pl.paxon96.musiccatalog.repository.RecordRepository;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Optional;
@@ -33,15 +32,15 @@ public class CloudinaryService {
     @Autowired
     private PhotoRepository photoRepository;
 
-    public void sendImage(MultipartFile fileToUpload) throws IOException {
+    public void sendImage(MultipartFile fileToUpload, Long id) throws IOException {
         log.info("uploading photo");
         Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
                 "cloud_name", cloudName,
                 "api_key", apiKey,
                 "api_secret", apiSecret));
         Map uploadResults = cloudinary.uploader().upload(fileToUpload.getBytes(), ObjectUtils.emptyMap());
-        System.out.println(uploadResults);
-        Optional<Record> record = recordRepository.findById(1L);
+        log.info(uploadResults);
+        Optional<Record> record = recordRepository.findById(id);
         Record r = record.get();
         Photo photo = Photo.builder()
                 .signature(String.valueOf(uploadResults.get("signature")))

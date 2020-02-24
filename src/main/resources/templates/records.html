@@ -21,14 +21,81 @@
 <body>
 <nav th:replace="navbar.html:: nav"></nav>
 <div class="container" style="margin-top: 40px">
-    <div class="card-deck">
+    <div class="text-center">
+        <button type="button" class="btn btn-outline-dark" data-toggle="collapse" data-target="#filter">Parametry
+            filtrowania
+        </button>
+        <div id="filter" class="collapse">
+            <div style="margin-top:10px;">
+                <form th:action="@{/records}" method="get">
+                    <div class="row" style="margin-top:10px;">
+                        <div class="col">
+                            <input type="text" id="title" th:value="${filterParams.title}" class="form-control"
+                                   name="title" placeholder="Tytuł">
+                        </div>
+                        <div class="col">
+                            <input type="text" id="composer" th:value="${filterParams.composer}" class="form-control"
+                                   name="composer" placeholder="Kompozytor">
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top:10px;">
+                        <div class="col">
+                            <div class="form-check" style="margin-top:10px;">
+                                <input class="form-check-input" th:checked="${filterParams.isReproduction}"
+                                       type="checkbox" id="isReproduction" name="isReproduction">
+                                <label class="form-check-label" for="isReproduction">
+                                    Reprodukcja?
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <input type="text" id="year" th:value="${filterParams.year}" class="form-control"
+                                   name="year" placeholder="Rok">
+                        </div>
+                        <div class="col">
+                            <input type="text" id="recordsAmount" th:value="${filterParams.recordsAmount}"
+                                   class="form-control" name="recordsAmount" placeholder="Liczba płyt">
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top:10px;">
+                        <div class="col">
+                            <input type="text" id="performer" th:value="${filterParams.performer}" class="form-control"
+                                   name="performer" placeholder="Wykonawca">
+                        </div>
+                        <div class="col">
+                            <input type="text" id="musicType" th:value="${filterParams.musicType}" class="form-control"
+                                   name="musicType" placeholder="Gatunek">
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top:10px;">
+                        <div class="col">
+                            <input type="text" id="format" th:value="${filterParams.format}" class="form-control"
+                                   name="format" placeholder="Format">
+                        </div>
+                        <div class="col">
+                            <input type="text" id="recordType" th:value="${filterParams.recordType}"
+                                   class="form-control" name="recordType" placeholder="Typ płyty">
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-top:10px;">
+                        <button type="submit" class="btn btn-outline-dark">Szukaj</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="card-deck" style="margin-top:20px;">
         <div class="card" th:each="record : ${records}">
-            <img class="card-img-top" th:src="${record.photo.url}" alt="Brak zdjęcia płyty">
+            <div class="text-center">
+                <img class="card-img-top" th:src="${record.photo.url}" alt="Brak zdjęcia płyty">
+            </div>
             <div class="card-body">
-                <h5 class="card-title">
-                    <a th:text="${record.title}">Tytuł płyty</a>
-                </h5>
-                <a href="#" class="btn btn-dark">Przejdź do płyty</a>
+                <div class="text-center">
+                    <h5 class="card-title">
+                        <a th:text="${record.title}">Tytuł płyty</a>
+                    </h5>
+                    <a th:href="@{'/records/' + ${record.id}}" class="btn btn-outline-dark">Przejdź do płyty</a>
+                </div>
             </div>
         </div>
     </div>

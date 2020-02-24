@@ -32,7 +32,7 @@ public class PerformerController {
     public ModelAndView editPerformerPost(ModelAndView model, @ModelAttribute("performer") PerformerDto performer){
         performerService.edit(performer);
         model.getModel().clear();
-        model.setViewName("redirect:edit?performerId={id}".replace("{id}", performer.getId().toString()));
+        model.setViewName("redirect:/performers");
         return model;
     }
 
