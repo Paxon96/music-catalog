@@ -72,17 +72,17 @@ public class RecordService {
         Optional<Record> optionalRecord = recordRepository.findById(recordId);
         if(optionalRecord.isPresent()){
             Record record = optionalRecord.get();
-            List<Performer> recordPerformers = record.getPerformers();
-            for (Performer performer : recordPerformers) {
-                performer.removeRecord(record);
-                performerRepository.save(performer);
-            }
-
-            List<Composer> recordComposers = record.getComposers();
-            for (Composer composer : recordComposers) {
-                composer.removeRecord(record);
-                composerRepository.save(composer);
-            }
+//            List<Performer> recordPerformers = record.getPerformers();
+//            for (Performer performer : recordPerformers) {
+//                performer.removeRecord(record);
+//                //performerRepository.save(performer);
+//            }
+//
+//            List<Composer> recordComposers = record.getComposers();
+//            for (Composer composer : recordComposers) {
+//                composer.removeRecord(record);
+//                //composerRepository.save(composer);
+//            }
 
 
 
